@@ -47,45 +47,52 @@ export const JourneyPicker = ({ onJourneyChange }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ fromCity });
-    console.log({ toCity });
-    console.log({ date });
+    {
+      fetch(
+        `https://apps.kodim.cz/daweb/leviexpress/api/journey?fromCity=${fromCity}&toCity=${toCity}&date=${date}`,
+      )
+        .then((response) => response.json())
+        .then((data) => onJourneyChange(data.results));
+    }
   };
   console.log({ cities });
   return (
     <div className="journey-picker container">
       <h2 className="journey-picker__head">Kam chcete jet?</h2>
-      <div className="journey-picker__body">
-        <form className="journey-picker__form" onSubmit={handleSubmit}>
-          <label>
-            <div className="journey-picker__label">Odkud:</div>
-            <select
-              value={fromCity}
-              onChange={(e) => setFromCity(e.target.value)}
-            >
-              <CityOptions cities={cities} />
-            </select>
-          </label>
-          <label>
-            <div className="journey-picker__label">Kam:</div>
-            <select value={toCity} onChange={(e) => setToCity(e.target.value)}>
-              <CityOptions cities={cities} />
-            </select>
-          </label>
-          <label>
-            <div className="journey-picker__label">Datum:</div>
-            <select value={date} onChange={(e) => setDate(e.target.value)}>
-              <DateOptions dates={dates} />
-            </select>
-          </label>
-          <div className="journey-picker__controls">
-            <button className="btn" type="submit">
-              Vyhledat spoj
-            </button>
-          </div>
-        </form>
-        <img className="journey-picker__map" src={mapImage} />
-      </div>
+      <div className="journey-picker__body"></div>
+      <form className="journey-picker__form" onSubmit={handleSubmit}>
+        <label>
+          <div className="journey-picker__label">Odkud:</div>
+          <select
+            value={fromCity}
+            onChange={(e) => setFromCity(e.target.value)}
+          >
+            <CityOptions cities={cities} />
+          </select>
+        </label>
+        <label>
+          <div className="journey-picker__label">Kam:</div>
+          <select value={toCity} onChange={(e) => setToCity(e.target.value)}>
+            <CityOptions cities={cities} />
+          </select>
+        </label>
+        <label>
+          <div className="journey-picker__label">Datum:</div>
+          <select value={date} onChange={(e) => setDate(e.target.value)}>
+            <DateOptions dates={dates} />
+          </select>
+        </label>
+        <div className="journey-picker__controls">
+          <button
+            className="btn"
+            type="submit"
+            disabled={fromCity === '' || toCity === '' || date === ''}
+          >
+            Vyhledat spoj
+          </button>
+        </div>
+      </form>
+      <img className="journey-picker__map" src={mapImage} />
     </div>
   );
 };
