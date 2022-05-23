@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './style.css';
 
 export const BusStop = ({ name, station, time }) => {
   return (
