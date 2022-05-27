@@ -6,6 +6,7 @@ import { SeatPicker } from '../SeatPicker';
 
 export const Home = () => {
   const [journey, setJourney] = useState(null);
+  const [userSeat, setUserSeat] = useState(null);
   let navigate = useNavigate();
   const handleBuy = () =>
     fetch('https://apps.kodim.cz/daweb/leviexpress/api/reservation', {
@@ -15,7 +16,7 @@ export const Home = () => {
       },
       body: JSON.stringify({
         action: 'create',
-        seat: journey.autoSeat,
+        seat: userSeat,
         journeyId: journey.journeyId,
       }),
     })
@@ -36,7 +37,8 @@ export const Home = () => {
           <SeatPicker
             seats={journey.seats}
             journeyId={journey.journeyId}
-            selectedSeat={journey.autoSeat}
+            selectedSeat={userSeat}
+            onSeatSelected={setUserSeat}
           />
 
           <div className="controls container">
